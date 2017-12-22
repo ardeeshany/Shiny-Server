@@ -1,0 +1,10 @@
+name: shiny_apps
+title:
+username:
+account: ardeeshany
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 251048
+bundleId: 1147067
+url: https://ardeeshany.shinyapps.io/shiny_apps/
+when: 1513901187.66556

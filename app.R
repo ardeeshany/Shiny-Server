@@ -4,7 +4,7 @@ test<-function(n){
 }
 
 ui<-fluidPage(
-  sliderInput(inputId = "num",label = "Hello",min = 0,max = 100,value = 25),
+  sliderInput(inputId = "num",label = "histogram",min = 0,max = 100,value = 25),
   plotOutput(outputId = "hist"),
   tableOutput(outputId = "table")
 )
