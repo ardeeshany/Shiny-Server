@@ -88,47 +88,28 @@ ui<-fluidPage(
   actionButton(inputId = "reset",label = "Clear"),
   ##  
   
-<<<<<<< HEAD:Templates/Action Button.R
   plotOutput("plot")
-=======
-  plotOutput("plot"),
-  plotOutput("plot2")
->>>>>>> 2a54dd78f491d6981d781549a0b4feb15077085e:Action Button.R
 )
 
 server <- function(input,output){
   
-<<<<<<< HEAD:Templates/Action Button.R
   # it can be more than one ractive values like : reactiveValues(data = NULL,data2=NULL)
   v <- reactiveValues(data = NULL)
-=======
   # we can initiate values for data or data2.
-  v <- reactiveValues(data = NULL,data2=NULL)
->>>>>>> 2a54dd78f491d6981d781549a0b4feb15077085e:Action Button.R
-  
   observeEvent(input$go1, {
     v$data <- runif(100)
   })
   observeEvent(input$go2, {
-    v$data2 <- rnorm(100)
+    v$data <- rnorm(100)
   })
 
-  
   observeEvent(input$reset, {
     v$data <- NULL
-    v$data2 <- NULL
   })  
   output$plot <- renderPlot({
     if (is.null(v$data)) return()
     hist(v$data)
   })
-<<<<<<< HEAD:Templates/Action Button.R
-=======
-  output$plot2 <- renderPlot({
-    if (is.null(v$data2)) return()
-    hist(v$data2)
-  })
->>>>>>> 2a54dd78f491d6981d781549a0b4feb15077085e:Action Button.R
 
 }
 shinyApp(ui = ui, server = server)
