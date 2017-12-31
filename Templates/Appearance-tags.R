@@ -64,14 +64,14 @@ shinyApp(ui = ui, server = server)
 
 ### Add raw html code with HTML(): If you have a HTML chink code, you can come it in HTML(##chink code) in the fluid page and it knows
 ### it is a HTML code not R code.
-library(shiny)
-
-ui<-fluidPage(
- HTML(
-   "<h1> My Shiny App <h1>"
- ) 
-)
-
-server <- function(input,output){}
-shinyApp(ui = ui, server = server)
+# library(shiny)
+# 
+# ui<-fluidPage(
+#  HTML(
+#    "<h1> My Shiny App <h1>"
+#  ) 
+# )
+# 
+# server <- function(input,output){}
+# shinyApp(ui = ui, server = server)
 
