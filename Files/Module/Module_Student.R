@@ -9,7 +9,7 @@ tagList(
             
             column(1,
                    div(style=" display:inline-block; width: 300px; margin-top: 15px;",
-                       selectizeInput(inputId=ns("Student_input"), label="نام دانش آموز", choices= names , selected = NULL, multiple = TRUE,
+                       selectizeInput(inputId=ns("Student_input"), label= "نام دانش آموز را وارد کنید", choices= names , selected = NULL, multiple = TRUE,
                                       options = NULL))
             ),
             column(1, offset=3,

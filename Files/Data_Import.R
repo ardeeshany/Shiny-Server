@@ -4,16 +4,26 @@
 #
 ###########################
 
+# read_excel_allsheets
+# r_excel_class
+# r_excel_names
+
+
+
+
+
+
+## Read excel file including different sheets and return a list including the separate sheets information. 
 library(readxl)    
 read_excel_allsheets <- function(filename) {
-  sheets <- readxl::excel_sheets(filename)
-  x <-    lapply(sheets, function(X) readxl::read_excel(filename, sheet = X))
+  sheets <- readxl::excel_sheets(filename)    #return names of the sheets...ریاضی، فیزیک، شیمی
+  x <-    lapply(sheets, function(X) readxl::read_excel(filename, sheet = X)) #read each sheet and save them as a sepratae files...list of 3 classes
   names(x) <- sheets
   x
 }
 
 
-## main function for reading from xlsx file (extract different sheet)
+## main function for reading from xlsx file (extract a specific sheet with its name or number in list)
 r_excel_class <- function(filename,n){
   Data <- read_excel_allsheets(filename)
   
@@ -32,11 +42,11 @@ r_excel_class <- function(filename,n){
 ## Reading names from xlsx
 r_excel_names <- function(filename){
   Data <- read_excel_allsheets(filename)
-  Class_names <- names(Data)
-  rownames <- unlist((Data[[1]])[,1] ,use.names = FALSE)
-  date <- colnames(as.data.frame(Data[[1]]))[-1]
+  Class_names <- names(Data) #Class names
+  rownames <- unlist((Data[[1]])[,1] ,use.names = FALSE) #Student names
+  date <- colnames(as.data.frame(Data[[1]]))[-1] #date of exams
   out <- list(Class_names,rownames,date)
-  names(out) <- c("class","student","date")
+  names(out) <- c("class","student","date") #output
   return(out)
 }
 
@@ -48,13 +58,17 @@ r_excel_names <- function(filename){
 ###########################
 
 
-## Inserting By hand
+#! Inserting By hand
 num_CP <- 3  # number of Class P
 class_label <- c("M","P","C")
 ##
 
 
-## Label names, dates for each calss
+#   Insert NAMES: e.g. Class_P2, names_P2, date_P2
+##Labeling "class", "names" and "dates" for each calss...
+##  assign every sheet to its label (Class_P2)
+##  assign student names in each class to its label (names_P2)
+##  assign every grade dates to its label (date_P2)
 for(i in 2:num_CP){
   nam <- paste("class_P", i, sep = "")
   Data_num <- paste("Data_P", i, ".xlsx", sep = "")
@@ -70,7 +84,8 @@ for(i in 2:num_CP){
 }
 
 
-## Insert all Class P data in format DP3M : Data Pish 3, Math
+# Insert DATA: e.g. DP2M
+##Insert all Class P data in format like DP3M : Data Pish 3, Math
 for(i in 2:num_CP){
   for(j in 1:length(class_P3)){
     nam <- paste("DP", i,  class_label[j],  sep = "")
@@ -82,6 +97,7 @@ for(i in 2:num_CP){
 
 ### 
 names_all <- c(names_P2,names_P3)
+
 ################
 # Outside variables
 ################

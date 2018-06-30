@@ -7,7 +7,7 @@
 # Sidebar
 #
 #############################
-SidebarInput <- function(id){
+SidebarUI <- function(id){
   
 
   ns <- NS(id)
@@ -16,40 +16,44 @@ SidebarInput <- function(id){
     width = 230,
     helpText(h1(strong("RAAVI"))),
     
-    sidebarMenu(id = "menu1",              
+ 
+    sidebarMenu(id = ns("menu1"),          
               
               
               # sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
               #                   label = "Search..."),
+
+              menuItem("ورود", tabName="Login", icon = icon("sign-in")
+              ),
+              
+                            
+              menuItem("خلاصه", tabName= "Summary", icon = icon("list-ul")
+              ),
+              
+
               
               
+                menuItem("کلاس",tabname= "Class", icon = icon("sitemap"),tabName = "Ref",
+                         menuSubItem("پیش", tabName = "CP"),
+                         menuSubItem("سوم", tabName = "C3")
+                        ),
+                         
+             
               
-              menuItem("خلاصه", tabName = "Summary", icon = icon("bar-chart")
+              
+              menuItem("دانش آموز", tabName = "Student", icon = icon("users","lg")
               ),
               
               
-              
-              menuItem("کلاس",tabname="Class", icon = icon("bar-chart-o"), startExpanded = FALSE,
-                       menuSubItem("پیش", tabName = "CP"),
-                       menuSubItem("سوم", tabName = "C3")
-              ),
-              
-              menuItem("دانش آموز", tabName = "Student", icon = icon("bar-chart")
-              ),
-              
-              
-              menuItem("دبیر", tabName = "Teacher", icon = icon("bar-chart")
+              menuItem("دبیر", tabName = "Teacher", icon = icon("user-secret","fa-lg")
               ),
               
               menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
               
-              
-              
-              
+        
               menuItem("Widgets", icon = icon("th"), tabName = "widgets",
                        badgeLabel = "new", badgeColor = "red"),
-              
-              
+             
               
               menuItem("Source code", icon = icon("file-code-o"),       # link to external content
                        href = "https://github.com/ardeeshany/"),
@@ -62,7 +66,7 @@ SidebarInput <- function(id){
 
 
               # The dynamically-generated user panel
-              uiOutput("userpanel")
+              uiOutput(ns("userpanel"))
         
   )   
     )

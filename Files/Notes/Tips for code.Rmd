@@ -1,0 +1,23 @@
+---
+title: "Tips for code"
+author: "Ardalan Mirshani"
+date: "June 2, 2018"
+output: html_document
+---
+
+## Comments
+
+- comments with one # : what returns from the function
+- comments with one ## : more details
+- comments with #! : we should change manually
+
+## Module_Class.R
+
+This Module has some submodules which are class P, class 3 and ...
+each class, like class P, needs to include with different modules becuase for running each of them, we need different Data sets which is going to be imported from **Data_import.R**. So in my code, every actual module is the <span style="color:red"> each class in school </span>, like like ClassP2 ... 
+
+## Data_Import.R
+
+take an excel file with different sheets. It extracts each sheets, name of students and date of grades. Then it assings each separate sheet to a `label` like `DP2M: Data Pish 2 Math`. So for using the file 
+
+

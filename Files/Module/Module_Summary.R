@@ -1,4 +1,3 @@
-source('ui_Sidebar.R')
 
 SummaryUI <- function(id){
 
