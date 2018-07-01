@@ -76,7 +76,12 @@ C_ScatterUI <- function(id,date,names){
 
 C_Scatter <- function(input,output,session,Data,date,names){
 
-  Mean <- apply(Data,2,mean)  
+  
+  print("SCATTER PLOOOOT")
+  
+  Mean <- apply(Data,2,mean)
+  print(Mean)
+  
   
   observe({
     updateCheckboxGroupInput(
@@ -86,34 +91,43 @@ C_Scatter <- function(input,output,session,Data,date,names){
   })
   
   melt_Data_St <- reactive({
+ 
+    print("MELT DATA MEAN ddddddddd")
     
-
     validate(
       need((input$St_Mean==TRUE)||!is.null(input$St_ChG),"حداقل باید یک نمودار را انتخاب کنید")
     )
-
+    
     if(input$St_Mean==TRUE){
       
-      if(is.null(d)==TRUE){
-        d <-  Mean
-        rownames(d) <- "میانگین"
-      }
+      print("ST_MEAN ==== TRUE ")
       
-      else{
+      if(is.null(input$St_ChG)==TRUE){
+        print("d NULL")
+        d <- t(as.matrix(Mean))
+        rownames(d) <- "میانگین"
+      }else{
+        
+        print("d NOOOOO NULL ")
         d <- as.data.frame(Data[which(rownames(Data) %in% input$St_ChG),,drop=FALSE])      
         d <- rbind(d,Mean)
         rownames(d) <- c(rownames(d)[-length(rownames(d))],"میانگین")
       }
       
       colnames(d) <- 1:dim(d)[2]    
+    
     }else{
+      
+      print("ST_MEAN ==== FALSE ")
+      
       d <- as.data.frame(Data[which(rownames(Data) %in% input$St_ChG),,drop=FALSE]) 
       colnames(d) <- 1:dim(d)[2] 
     }
     
     d <- melt(as.matrix(d))
     colnames(d) <- c("Student","Day","value")
-    d
+    print(d)
+    return(d)
   })
   
 
@@ -121,7 +135,6 @@ C_Scatter <- function(input,output,session,Data,date,names){
   Reac_CP2_Sc <- eventReactive(input$St_Ac, {
     
     m <- reactive({lm(value ~ Day, melt_Data_St())})
-    
 
     text <- reactive({ coef(m())[1] })
     
