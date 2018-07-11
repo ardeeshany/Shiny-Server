@@ -276,11 +276,10 @@ else
 d$clr <- as.vector(cut(1:dim(Data)[1],breaks = input$DT_bin2,labels = cc1))
 
 p <- ggplot(d,aes(x = reorder(names,mean.w),y = mean.w))+
-  geom_bar(stat="identity",aes(fill = clr),color=rep("black",12))+
+  geom_bar(stat="identity",aes(fill = clr),color="black")+
   geom_text(data=d,aes(x = names,y = mean.w,label=round(mean.w,2)),vjust=0)+
-  coord_flip()+
   labs(title ="میانگین وزنی", x = "", y = "میانگین وزنی")+
-  scale_fill_manual(values=cc1) 
+  scale_fill_manual(values=cc1)
 
 gg <- ggplotly(p)
 
