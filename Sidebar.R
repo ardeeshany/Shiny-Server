@@ -1,75 +1,47 @@
-#? A problem with Dynamic input ... I think it is not run in server. 
-#? For running we do not use ns() for input names.
-
-
-#############################
-#
-# Sidebar
-#
-#############################
+## Sidebar ##
 SidebarUI <- function(id){
   
-
   ns <- NS(id)
 
   dashboardSidebar(
     width = 230,
     helpText(h1(strong("RAAVI"))),
     
- 
     sidebarMenu(id = ns("menu1"),          
               
               
-              # sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
-              #                   label = "Search..."),
+      #sidebarSearchForm(textId = "searchText", buttonId = "searchButton",label = "Search..."),
 
-              menuItem("ورود", tabName="Login", icon = icon("sign-in")
-              ),
+      menuItem("ورود", tabName="Login", icon = icon("sign-in")),
+      
+      menuItem("خلاصه", tabName= "Summary", icon = icon("list-ul")),
               
-                            
-              menuItem("خلاصه", tabName= "Summary", icon = icon("list-ul")
-              ),
-              
+      menuItem("کلاس",tabname= "Class", icon = icon("sitemap"),tabName = "Ref",
+               menuSubItem("پیش", tabName = "CP"),
+               menuSubItem("سوم", tabName = "C3")),
 
+      menuItem("دانش آموز", tabName = "Student", icon = icon("users","lg")),
               
+      menuItem("دبیر", tabName = "Teacher", icon = icon("user-secret","fa-lg")),
               
-                menuItem("کلاس",tabname= "Class", icon = icon("sitemap"),tabName = "Ref",
-                         menuSubItem("پیش", tabName = "CP"),
-                         menuSubItem("سوم", tabName = "C3")
-                        ),
-                         
-             
-              
-              
-              menuItem("دانش آموز", tabName = "Student", icon = icon("users","lg")
-              ),
-              
-              
-              menuItem("دبیر", tabName = "Teacher", icon = icon("user-secret","fa-lg")
-              ),
-              
-              menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-              
+      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
         
-              menuItem("Widgets", icon = icon("th"), tabName = "widgets",
+      menuItem("Widgets", icon = icon("th"), tabName = "widgets",
                        badgeLabel = "new", badgeColor = "red"),
              
-              
-              menuItem("Source code", icon = icon("file-code-o"),       # link to external content
+      menuItem("Source code", icon = icon("file-code-o"),       # link to external content
                        href = "https://github.com/ardeeshany/"),
 
 
-              ### Dynamic item : Instead of menuItem, use menuItemOutput
-              ### It needs a render function in server function
-              menuItemOutput(ns("menuitem")),
-              tags$head(tags$style(HTML('.shiny-server-account { display: none; }'))),
+      ### Dynamic item : Instead of menuItem, use menuItemOutput
+      ### It needs a render function in server function
+      menuItemOutput(ns("menuitem")),
+       tags$head(tags$style(HTML('.shiny-server-account { display: none; }'))),
 
-
-              # The dynamically-generated user panel
-              uiOutput(ns("userpanel"))
+      # The dynamically-generated user panel
+      uiOutput(ns("userpanel"))
         
-  )   
-    )
+  ))
 }
 
 Sidebar <- function(input,output,session){
@@ -80,7 +52,6 @@ Sidebar <- function(input,output,session){
     )
   })
   
-  
   output$userpanel <- renderUI({
     # session$user is non-NULL only in authenticated sessions
     if (!is.null(session$user)) {
@@ -89,4 +60,6 @@ Sidebar <- function(input,output,session){
         subtitle = a(icon("sign-out"), "Logout", href="__logout__"))
     }
   })
+  
+  return(list())
 }
