@@ -25,24 +25,25 @@ source('Body.R')
 source('Data_Import.R')
 source('ui_outside_functions.R')
 
+source('Module/M_Class.R')
+
 source('Module/Module_Class.R')
   source('Module/Submodule/C_Hist.R')
   source('Module/Submodule/C_Scatter.R')
   source('Module/Submodule/C_Box.R')
   source('Module/Submodule/C_Category.R')
   source('Module/Submodule/C_Progress.R')
-source('Module/Module_Student.R')
-source('Module/Module_Summary.R')
+source('Module/M_Student.R')
+source('Module/M_Summary.R')
 
 
 
 ## UI ##
 ui <- dashboardPage( skin = "blue", 
- 
+                     
 HeaderUI("mod_header"),                   
 SidebarUI("mod_sidebar"),
 BodyUI("mod_body")
-
 
 )
 

@@ -1,17 +1,12 @@
 BodyUI <- function(id){
   
+ns <- NS(id)
 
-  ns <- NS(id)
-
-  
 dashboardBody(
-    
-    
-    #ColorUI("mode_color"),  
+#ColorUI("mode_color"),  
     
 tabItems(
-      
-      
+  
 #### Login ####      
       
 #PassUI("mod_pass")
@@ -39,37 +34,14 @@ tabItems(
 # ),
 #### Login ####  
 
-## Summmary ##
-tabItem(tabName = "Summary",
-              SummaryUI(ns("mod_summary"))),  
-
-
-## Class > P ##      
-tabItem(tabName="CP",
-          
-          box(width = "130%",collapsible = TRUE,status = "primary",
-                  
-              tabsetPanel(selected = NULL,
-                    
-                    tabPanel(title="گروه را انتخاب کنید",icon = icon("mail-forward")),
-                              
-                    tabPanel(title="یک"),
-                              
-                    tabPanel(title="دو",
-                      ClassUI(ns("mod_CP2"),date_P2,names_P2)),
-                              
-                    tabPanel(title="سه",
-                      ClassUI(ns("mod_CP3"),date_P3,names_P3))
-              
-                         ))
-              ),
+## Summary ##
+tabItem(tabName = "Summary", M_SummaryUI(ns("mod_summary"))),  
+## Class ##
+M_ClassUI(ns("mod_class")),  
+## Student ##
+tabItem(tabName="Student", M_StudentUI(ns("mod_student"),names_all))
       
-## Student ##      
-tabItem(tabName="Student",   
-              StudentUI(ns("mod_student"),names_all))
-      
-    ))
-
+       ))
 }
 
 Body <- function(input,output,session){
@@ -83,10 +55,9 @@ Body <- function(input,output,session){
   #   if (USER$Logged == TRUE) {   
 #### Login ####    
   
-  callModule(Summary,"mod_summary")  
-  callModule(Class,"mod_CP2",DP2M,date_P2,names_P2)
-  callModule(Class,"mod_CP3",DP3M,date_P3,names_P3)  
-  callModule(Student,"mod_student")  
+callModule(M_Summary,"mod_summary")
+callModule(M_Class,"mod_class") 
+callModule(M_Student,"mod_student")  
 
 #}  
   

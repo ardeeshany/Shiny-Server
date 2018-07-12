@@ -1,4 +1,4 @@
-StudentUI <- function(id,names){
+M_StudentUI <- function(id,names){
   
   ns <- NS(id)
   
@@ -36,6 +36,6 @@ tagList(
 
 }
 
-Student <- function(input,output,session){
+M_Student <- function(input,output,session){
   
 }

@@ -1,5 +1,5 @@
 
-SummaryUI <- function(id){
+M_SummaryUI <- function(id){
 
   ns <- NS(id)
 
@@ -63,7 +63,7 @@ valueBoxOutput(ns("approvalBox"),width = 3)
 
 
 
-Summary <- function(input,output,session){
+M_Summary <- function(input,output,session){
   # infoBox
   output$progressBox <- renderInfoBox({
     infoBox(
