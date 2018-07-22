@@ -30,7 +30,9 @@ C_ScatterUI(ns("C_Scatter"),date,names),
 C_CatUI(ns("C_Category"),date,names),
    
 #### Progress
-C_ProgUI(ns("C_Progress"),date,names)                        
+C_ProgUI(ns("C_Progress"),date,names),
+
+C_LoadUI(ns("C_Load")) 
                       
 )
 
@@ -99,5 +101,6 @@ callModule(C_Cat,"C_Category",Data,date,names)
 ### Progress 
 callModule(C_Prog,"C_Progress",Data,date,names)
 
+callModule(C_Load,"C_Load")
  
 }

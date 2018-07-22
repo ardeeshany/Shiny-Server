@@ -6,7 +6,6 @@ dashboardBody(
 #ColorUI("mode_color"),  
     
 tabItems(
-  
 #### Login ####      
       
 #PassUI("mod_pass")
@@ -37,11 +36,13 @@ tabItems(
 ## Summary ##
 tabItem(tabName = "Summary", M_SummaryUI(ns("mod_summary"))),  
 ## Class ##
-M_ClassUI(ns("mod_class")),  
+tabItem(tabName = "CP",M_ClassUI(ns("mod_classP"),date_P2,names_P2)), 
+tabItem(tabName = "C3",M_ClassUI(ns("mod_class3"),date_P2,names_P2)), 
 ## Student ##
 tabItem(tabName="Student", M_StudentUI(ns("mod_student"),names_all))
       
-       ))
+       )
+    )
 }
 
 Body <- function(input,output,session){
@@ -56,7 +57,8 @@ Body <- function(input,output,session){
 #### Login ####    
   
 callModule(M_Summary,"mod_summary")
-callModule(M_Class,"mod_class") 
+callModule(M_Class,"mod_classP",DP2M,date_P2,names_P2) 
+callModule(M_Class,"mod_class3",DP2M,date_P2,names_P2) 
 callModule(M_Student,"mod_student")  
 
 #}  

@@ -33,6 +33,7 @@ source('Module/Module_Class.R')
   source('Module/Submodule/C_Box.R')
   source('Module/Submodule/C_Category.R')
   source('Module/Submodule/C_Progress.R')
+  source('Module/Submodule/C_Load.R')
 source('Module/M_Student.R')
 source('Module/M_Summary.R')
 
