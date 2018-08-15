@@ -1,16 +1,3 @@
-outputDir <- "RAAVI/RAAVI/Data"
-
-loadData <- function(outfilename) {
-  # Read all the files into a list
-  filesInfo <- drop_dir(outputDir)
-  filenames <- filesInfo$name
-  filePaths <- filesInfo$path_lower
-  data <- drop_read_csv(file = sprintf("%s.csv", "M"))
-  data
-}
-
-
-
 
 C_LoadUI <- function(id){
   
@@ -21,21 +8,13 @@ C_LoadUI <- function(id){
            fluidRow(
 
 ### Left Panel   ----             
+          div(style="text-align:center;", 
           column(width = 3,
           br(),
-          box(width="200%",  
-          titlePanel("ویرایش و ذخیره اطلاعات"),
-           #sidebarLayout(
-           #   sidebarPanel(
-           #     helpText("Shiny app based on an example given in the rhandsontable package.", 
-           #              "Right-click on the table to delete/insert rows.", 
-           #              "Double-click on a cell to edit"),
-               
+          box(width="200%",title = "ویرایش اطلاعات",status="primary",
+
                wellPanel(
-                div(style="display:inline-block;width:30%;",
-                checkboxInput(inputId = ns("upload"),label = "آپلود",FALSE)),
-                div(style="display:inline-block;width:30%;",
-                checkboxInput(inputId = ns("remove"),label = "پاک",FALSE)),
+                radioButtons(inputId = ns("up_rmv"),label = "",choices = c("آپلود","پاک"),selected = "آپلود",inline = TRUE),
                 uiOutput(outputId = ns("f_upload"))),
                 br(),
                
@@ -44,7 +23,7 @@ C_LoadUI <- function(id){
                  div(class='row', 
                      textInput(inputId = ns("save_name"),label = "",value = Sys.Date(),
                                placeholder = "نام دیتا را وارد کنید"),
-                         actionButton(ns("save"), "Save"),
+                         actionButton(ns("save"), "ذخیره کردن دیتا در ابر"),
                      
                        uiOutput(ns("message"), inline=TRUE)
                      
@@ -53,26 +32,28 @@ C_LoadUI <- function(id){
                  )
                )
                
-             )),
+             ))),
              
 
 ### Left Panel   ----   
 
 ### Right Panel   ----       
-                         
+                 
+               div(style="text-align:center;",         
                column(width = 9,
                div(style="margin-top: 3%;",
                box(status="primary",width="200%",collapsible = TRUE,collapsed = FALSE,
-               div(style="display:inline-block;width:30%;",
-               uiOutput(outputId = ns("f_set"))), 
-               div(style="display:inline-block;width:30%;",
-               actionButton(ns("cancel"), "Cancel last action")),
-               br(), br(), 
-               
+               fluidRow(
+               column(width = 4,
+               div(style="display:inline-block;width:90%;",
+               uiOutput(outputId = ns("f_set")))),
+               column(width = 3,
+               div(style="display:inline-block;width:30%;margin-top:15%;",
+               actionButton(ns("cancel"), "Cancel last action")))),
                rHandsontableOutput(ns("hot")),
                br(),
                
-               
+
                box(collapsible = TRUE,title = "تغییر دیتا",collapsed = TRUE,width = "200%",status = "info",
                    fluidRow(
                      column(width = 3,
@@ -108,7 +89,7 @@ C_LoadUI <- function(id){
                
                  #h3("اضافه کردن ستون"),
   )
-           )
+           ))
 
 ### Right Panel   ----       
 
@@ -131,6 +112,21 @@ list.files()
 
 C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/Data"){
   
+  
+  
+  
+  saveData <- function(data,fileName){
+    #data <- t(data)
+    # Create a unique file name
+    #fileName <- sprintf("%s_%s.xlsx", as.integer(Sys.time()), digest::digest(data))
+    # Write the data to a temporary file locally
+    filePath <- file.path(tempdir(), sprintf("%s.xlsx",fileName))
+    #write.xlsx(x = data, file = filePath,row.names = FALSE)
+    colnames(data)[1] <- "نام"
+    write.xlsx(x = data, file = filePath, row.names = FALSE)
+    # Upload the file to Dropbox
+    drop_upload(filePath, path = outputDir,autorename = TRUE)
+  }
   
    # DF2 <- as.data.frame(readxl::read_excel("Data_P2.xlsx"))
    # DF3 <- as.data.frame(readxl::read_excel("Data_P3.xlsx"))
@@ -183,7 +179,7 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
   
   
    observeEvent(input$f_new,{
-     D_new <-read.csv(input$f_new$datapath, stringsAsFactors = F)
+     D_new <-read.xlsx(input$f_new$datapath)
      saveData(D_new,input$f_name)
      })
   
@@ -211,20 +207,16 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
 
    
    output$f_upload <- renderUI({
-     if(input$upload==TRUE){
+     if(input$up_rmv=="آپلود"){
        Date <- as.OtherDate(Sys.Date(),"persian")[1:3]
        A <- textInput(inputId = session$ns("f_name"),label = "نام دیتا",
                     value = sprintf("%s-%s-%s",Date[3],Date[2],Date[1]))
        B <- fileInput(inputId = session$ns("f_new"),label = "آپلود کردن فایل جدید")
        return(list(A,B))
      }else{
-       if(input$remove==TRUE){
        A <- selectInput(inputId = session$ns("f_remove"),label = "نام دیتا",choices = File()$name) 
        B <- actionButton(session$ns("remove_f"), "پاک کردن")
        return(list(A,B))
-       }
-       else   
-       return(NULL)
      }
    })
    
@@ -242,7 +234,10 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
   
   observeEvent(input$f_set,{
     ind <- which(File()$name==input$f_set)
-    D <- drop_read_csv(File()$path[ind])
+    Temp <- file.path(tempdir(),"Test.xlsx")
+    drop_download(path = File()$path[ind],local_path = Temp,overwrite = TRUE)
+    D <- read.xlsx(xlsxFile = Temp)
+    #D <- drop_read_csv(File()$path[ind])
     values[["now"]] <- D[,-1]
     values[["names"]] <-D[,1]
     values[["dates"]] <- colnames(D)
@@ -329,34 +324,12 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
       helpText(sprintf(""))
   })
   
-  saveData <- function(data,fileName){
-    #data <- t(data)
-    # Create a unique file name
-    #fileName <- sprintf("%s_%s.xlsx", as.integer(Sys.time()), digest::digest(data))
-    # Write the data to a temporary file locally
-    filePath <- file.path(tempdir(), fileName)
-    #write.xlsx(x = data, file = filePath,row.names = FALSE)
-    colnames(data)[1] <- "نام"
-    write.csv(x = data, file = filePath, row.names = FALSE)
-    # Upload the file to Dropbox
-    drop_upload(filePath, path = outputDir)
-  }
-  
 ## Save 
   observeEvent(input$save, {
-    #fileType <- isolate(input$fileType)
+    
     finalDF <- cbind(values[["names"]],values[["now"]])
-    # if(fileType == "R"){
-    #   dput(finalDF, file=file.path(outdir, sprintf("%s.txt", outfilename)))
-    # }
-    #else{
     outfilename <- input$save_name 
-    saveData(finalDF,sprintf("%s.csv", outfilename))
-    convert(in_file = sprintf("raavi/raavi/data/%s.csv", outfilename),
-            out_file = sprintf("raavi/raavi/data/%s.xlsx", outfilename))
-    # write.xlsx(x = finalDF, file = file.path(outdir, sprintf("%s.xlsx", outfilename)),
-    #             row.names = FALSE) # ,sheetName = "TestSheet")
-    #}
+    saveData(finalDF,sprintf("%s.xlsx", outfilename))
     
     output$message <- renderUI({
       if(input$save==0){
@@ -374,24 +347,5 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
     if(!is.null(isolate(values[["previous"]]))) values[["now"]] <- isolate(values[["previous"]])
   })
   
-  
-  ## Message
-  
 
 }
-
-
-
-
-
-# 
-# df = data.frame(subject=c("Subject A", "Subject B", "Subject C", "Subject D"),id=c(1:4))
-# df
-# df <- data.frame(lapply(df, as.character),
-#                  stringsAsFactors = FALSE)
-# df <- as.list(df)
-# 
-# my_new_list <- split(df$id, df$subject)
-# my_new_list
-# 
-# my_new_list <- with(df, split(id, subject))
