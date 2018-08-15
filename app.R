@@ -27,9 +27,9 @@ source('Module/Body.R')
 source('Data_Import.R')
 source('ui_outside_functions.R')
 
-source('Module/M_Class.R')
-
-source('Module/Module_Class.R')
+source('Module/M1_Class.R')
+source('Module/M2_Class.R')
+source('Module/M3_Class.R')
   source('Module/Submodule/C_Hist.R')
   source('Module/Submodule/C_Scatter.R')
   source('Module/Submodule/C_Box.R')
@@ -38,8 +38,6 @@ source('Module/Module_Class.R')
   source('Module/Submodule/C_Load.R')
 source('Module/M_Student.R')
 source('Module/M_Summary.R')
-
-
 
 
 ui <- dashboardPage( skin = "blue", 

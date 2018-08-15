@@ -127,57 +127,7 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
     # Upload the file to Dropbox
     drop_upload(filePath, path = outputDir,autorename = TRUE)
   }
-  
-   # DF2 <- as.data.frame(readxl::read_excel("Data_P2.xlsx"))
-   # DF3 <- as.data.frame(readxl::read_excel("Data_P3.xlsx"))
 
-   
-   # observe({
-   #   filesInfo <- drop_dir(outputDir)
-   #   filenames <- unlist(strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts
-   #   filePaths <- filesInfo$path_lower
-   # })
-   
-  
-   # observeEvent(input$f_new,{
-   #       filesInfo <- drop_dir(outputDir)
-   #       filenames <- unlist(strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts
-   #       filePaths <- filesInfo$path_lower
-   # })
-  
-   # DF_tot <- reactive({
-   #     if(is.null(values[["tot"]])){
-   #     filesInfo <- drop_dir(outputDir)
-   #     filenames <- unlist(strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts
-   #     filePaths <- filesInfo$path_lower
-   #     A <- lapply(filePaths,drop_read_csv)
-   #     names(A) <- filenames
-   #     values[["tot"]] <- A
-   #     out <- values[["tot"]]
-   #     }else{
-   #      out <- values[["tot"]]
-   #     }
-   #     return(out)
-   #   })
-   # 
-   # 
-   # #A <- list(DF2,DF3)
-   # 
-   # 
-   # # Add uploaded data
-   # observeEvent(input$f_new,{
-   #     DF_T <- values[["tot"]]
-   #     names_DF <- names(DF_T)
-   #     print(names_DF)
-   #     DF_T <- c(DF_T,list(as.data.frame(readxl::read_excel(input$f_new$datapath))))
-   #     names(DF_T) <- c(names_DF,input$f_name)
-   #     values[["tot"]] <- DF_T
-   # })
-   # 
-   # # Remove selected data
-   
-  
-  
    observeEvent(input$f_new,{
      D_new <-read.xlsx(input$f_new$datapath)
      saveData(D_new,input$f_name)
@@ -348,4 +298,6 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
   })
   
 
+  #return(list(data=cbind(values[["names"]],values[["now"]]),date=values[["date"]]))
+  
 }

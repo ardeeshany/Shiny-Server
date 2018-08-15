@@ -33,13 +33,10 @@ tabItems(
 # ),
 #### Login ####  
 
-## Summary ##
-tabItem(tabName = "Summary", M_SummaryUI(ns("mod_summary"))),  
-## Class ##
-tabItem(tabName = "CP",M_ClassUI(ns("mod_classP"),date_P2,names_P2)), 
-tabItem(tabName = "C3",M_ClassUI(ns("mod_class3"),date_P2,names_P2)), 
-## Student ##
-tabItem(tabName="Student", M_StudentUI(ns("mod_student"),names_all))
+tabItem(tabName = "Summary", M_SummaryUI(ns("summary"))),  
+tabItem(tabName = "CP",M1_ClassUI(ns("cp"),date_P2,names_P2)), 
+tabItem(tabName = "C3",M1_ClassUI(ns("c3"),date_P2,names_P2)), 
+tabItem(tabName="Student", M_StudentUI(ns("student"),names_all))
       
        )
     )
@@ -56,10 +53,10 @@ Body <- function(input,output,session){
   #   if (USER$Logged == TRUE) {   
 #### Login ####    
   
-callModule(M_Summary,"mod_summary")
-callModule(M_Class,"mod_classP",DP2M,date_P2,names_P2) 
-callModule(M_Class,"mod_class3",DP2M,date_P2,names_P2) 
-callModule(M_Student,"mod_student")  
+callModule(M_Summary,"summary")
+callModule(M1_Class,"cp",DP2M,date_P2,names_P2) 
+callModule(M1_Class,"c3",DP2M,date_P2,names_P2) 
+callModule(M_Student,"student")  
 
 #}  
   
