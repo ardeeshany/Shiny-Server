@@ -23,11 +23,6 @@ SidebarUI <- function(id){
       menuItem("دانش آموز", tabName = "Student", icon = icon("users","lg")),
               
       menuItem("دبیر", tabName = "Teacher", icon = icon("user-secret","fa-lg")),
-              
-      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-        
-      menuItem("Widgets", icon = icon("th"), tabName = "widgets",
-                       badgeLabel = "new", badgeColor = "red"),
              
       menuItem("Source code", icon = icon("file-code-o"),       # link to external content
                        href = "https://github.com/ardeeshany/"),
@@ -35,8 +30,8 @@ SidebarUI <- function(id){
 
       ### Dynamic item : Instead of menuItem, use menuItemOutput
       ### It needs a render function in server function
-      menuItemOutput(ns("menuitem")),
-       tags$head(tags$style(HTML('.shiny-server-account { display: none; }'))),
+      # menuItemOutput(ns("menuitem")),
+      #  tags$head(tags$style(HTML('.shiny-server-account { display: none; }'))),
 
       # The dynamically-generated user panel
       uiOutput(ns("userpanel"))
@@ -46,11 +41,11 @@ SidebarUI <- function(id){
 
 Sidebar <- function(input,output,session){
   
-  output$menuitem <- renderMenu({
-    sidebarMenu(
-      menuItem("Menu item", icon = icon("calendar"))
-    )
-  })
+  # output$menuitem <- renderMenu({
+  #   sidebarMenu(
+  #     menuItem("Menu item", icon = icon("calendar"))
+  #   )
+  # })
   
   output$userpanel <- renderUI({
     # session$user is non-NULL only in authenticated sessions

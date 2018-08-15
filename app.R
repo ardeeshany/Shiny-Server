@@ -12,15 +12,17 @@ library(graphics)
 library(reshape2)
 library(plotly)
 library(ggplot2)
-
+library(rhandsontable)
+library(rdrop2)
+library(rio)
 
 
 ## modules ##
 source('ui_color.R')
 
-source('Header.R')
-source('Sidebar.R')
-source('Body.R')
+source('Module/Header.R')
+source('Module/Sidebar.R')
+source('Module/Body.R')
 
 source('Data_Import.R')
 source('ui_outside_functions.R')
@@ -39,7 +41,7 @@ source('Module/M_Summary.R')
 
 
 
-## UI ##
+
 ui <- dashboardPage( skin = "blue", 
                      
 HeaderUI("mod_header"),                   
@@ -49,7 +51,6 @@ BodyUI("mod_body")
 )
 
 
-## Server ##
 server <- function(input, output,session) {
 
 callModule(Header,"mod_header")
