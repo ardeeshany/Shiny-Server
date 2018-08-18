@@ -23,12 +23,7 @@ M0_HistUI <- function(id){
                     
                     div(style="display:inline-block;margin-top: 40px;text-align:center;",
                         actionButton(inputId = ns("Hg_Ac"),label = "آنالیز"))
-             ),
-             column(1,offset=1,
-                    
-                    div(style="display:inline-block;margin-top: 40px;text-align:center;",
-                        checkboxInput(inputId = 'chkbx',label = 'تحیلی آنی',value = FALSE)
-             ))
+             )
            ),
            
            plotlyOutput(ns("Hg")), 

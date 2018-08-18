@@ -80,33 +80,13 @@ M0_LoadUI <- function(id){
                                   uiOutput(ns("ui_removerowname"))),
                               div(style="display:inline-block;",
                                   actionButton(ns("removerow"),"حذف کردن سطر"))))
-                     )
-               )
-               
-               
-              )
-               
-               
-                 #h3("اضافه کردن ستون"),
-  )
-           ))
+                     ))
+               ))))
 
 ### Right Panel   ----       
 
 ))
 }
-
-
-
-
-
-
-
-######################
-#
-# Server Logic
-#
-######################
 
 
 M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/Data"){
@@ -115,16 +95,11 @@ M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI
   
   
   saveData <- function(data,fileName){
-    #data <- t(data)
     # Create a unique file name
-    #fileName <- sprintf("%s_%s.xlsx", as.integer(Sys.time()), digest::digest(data))
-    # Write the data to a temporary file locally
-    filePath <- file.path(tempdir(), sprintf("%s.xlsx",fileName))
-    #write.xlsx(x = data, file = filePath,row.names = FALSE)
+    filePath <- file.path(tempdir(), sprintf("%s.xlsx",fileName)) # Write the data to a temporary file locally
     colnames(data)[1] <- "نام"
     write.xlsx(x = data, file = filePath, row.names = FALSE)
-    # Upload the file to Dropbox
-    drop_upload(filePath, path = outputDir,autorename = TRUE)
+    drop_upload(filePath, path = outputDir, autorename = TRUE,mode = "add")
   }
 
    observeEvent(input$f_new,{
@@ -138,14 +113,13 @@ M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI
    })
    
   
-  
   File <- reactive({
     input$save
     input$f_new
     input$remove_f
     input$f_new
     filesInfo <- drop_dir(outputDir)
-    filenames <- unlist(strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts
+    filenames <- unlist(strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts (no after dot)
     filePaths <- filesInfo$path_display
     return(list(name=filenames,path=filePaths))
   }) 
@@ -172,21 +146,13 @@ M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI
   
   
   values <- reactiveValues(tot=NULL)
-  names <- reactiveValues()
-  
-  # observeEvent(input$f_set,{
-  #   values[["now"]] <- DF_tot()[[input$f_set]][,-1]
-  #   values[["names"]] <- DF_tot()[[input$f_set]][,1]
-  #   values[["dates"]] <- colnames(DF_tot()[[input$f_set]])
-  # })
-  
+
   
   observeEvent(input$f_set,{
     ind <- which(File()$name==input$f_set)
     Temp <- file.path(tempdir(),"Test.xlsx")
     drop_download(path = File()$path[ind],local_path = Temp,overwrite = TRUE)
     D <- read.xlsx(xlsxFile = Temp)
-    #D <- drop_read_csv(File()$path[ind])
     values[["now"]] <- D[,-1]
     values[["names"]] <-D[,1]
     values[["dates"]] <- colnames(D)[-1]
@@ -278,7 +244,7 @@ M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI
     
     finalDF <- cbind(values[["names"]],values[["now"]])
     outfilename <- input$save_name 
-    saveData(finalDF,sprintf("%s.xlsx", outfilename))
+    saveData(finalDF,sprintf("%s", outfilename))
     
     output$message <- renderUI({
       if(input$save==0){
@@ -296,8 +262,6 @@ M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI
     if(!is.null(isolate(values[["previous"]]))) values[["now"]] <- isolate(values[["previous"]])
   })
   
-
   return(values)
-  #return(list(data=cbind(values[["names"]],values[["now"]]),date=values[["date"]]))
   
 }
