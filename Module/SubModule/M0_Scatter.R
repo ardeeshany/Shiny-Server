@@ -1,4 +1,4 @@
-M0_ScatterUI <- function(id,date,names){
+M0_ScatterUI <- function(id){
   
   ns <- NS(id)
   
@@ -28,7 +28,7 @@ M0_ScatterUI <- function(id,date,names){
                       
                       div(style="display:inline-block; margin-top: 20px; ",
                           checkboxInput(ns('St_all'), 'تمام / هیچ')),
-                      checkboxGroupInput(inputId = ns("St_ChG"), label = "", choices = c(names)))
+                      uiOutput(ns("St_ChG")))
                     
              ),
              
@@ -74,53 +74,52 @@ M0_ScatterUI <- function(id,date,names){
 #
 ######################
 
-M0_Scatter <- function(input,output,session,Data,date,names){
+M0_Scatter <- function(input,output,session,Vals){
 
+  ns <- session$ns  
   
-  print("SCATTER PLOOOOT")
+  Data <- reactive({
+    M <- Vals[["now"]]
+    rownames(M) <- Vals[["names"]]
+    colnames(M) <- Vals[["dates"]]
+    return(M)
+  })  
   
-  Mean <- apply(Data,2,mean)
-  print(Mean)
   
+  output$St_ChG <- renderUI({
+    checkboxGroupInput(inputId = ns("St_ChG"), label = "", choices = c(rownames(Data())))
+  })
+  
+  
+  Mean <- reactive({ apply(Data(),2,mean) })
   
   observe({
     updateCheckboxGroupInput(
-      session, 'St_ChG', choices = names,
-      selected = if (input$St_all) names
+      session, 'St_ChG', choices = rownames(Data()),
+      selected = if (input$St_all) rownames(Data())
     )
   })
   
   melt_Data_St <- reactive({
- 
-    print("MELT DATA MEAN ddddddddd")
     
     validate(
       need((input$St_Mean==TRUE)||!is.null(input$St_ChG),"حداقل باید یک نمودار را انتخاب کنید")
     )
     
     if(input$St_Mean==TRUE){
-      
-      print("ST_MEAN ==== TRUE ")
-      
       if(is.null(input$St_ChG)==TRUE){
-        print("d NULL")
-        d <- t(as.matrix(Mean))
+        d <- t(as.matrix(Mean()))
         rownames(d) <- "میانگین"
       }else{
-        
-        print("d NOOOOO NULL ")
-        d <- as.data.frame(Data[which(rownames(Data) %in% input$St_ChG),,drop=FALSE])      
-        d <- rbind(d,Mean)
+        d <- as.data.frame(Data()[which(rownames(Data()) %in% input$St_ChG),,drop=FALSE])      
+        d <- rbind(d,Mean())
         rownames(d) <- c(rownames(d)[-length(rownames(d))],"میانگین")
       }
       
       colnames(d) <- 1:dim(d)[2]    
     
     }else{
-      
-      print("ST_MEAN ==== FALSE ")
-      
-      d <- as.data.frame(Data[which(rownames(Data) %in% input$St_ChG),,drop=FALSE]) 
+      d <- as.data.frame(Data()[which(rownames(Data()) %in% input$St_ChG),,drop=FALSE]) 
       colnames(d) <- 1:dim(d)[2] 
     }
     
@@ -145,7 +144,7 @@ M0_Scatter <- function(input,output,session,Data,date,names){
         theme(axis.line = element_line(colour = "darkblue", size = 1, linetype = "solid"),
               axis.text.x  = element_text(face="bold",angle=45, vjust=0.5, size=5)) +
         labs(title="تحلیل زمانی دانش آموزان",color="دانش آموزان") +
-        scale_x_discrete(name ="تاریخ امتحان", limits=date) +
+        scale_x_discrete(name ="تاریخ امتحان", limits=colnames(Data())) +
         annotate('text',x = 9,y = 18,label= text())+
         xlab("زمان") + ylab("نمره")
     }
@@ -155,7 +154,7 @@ M0_Scatter <- function(input,output,session,Data,date,names){
         theme(axis.line = element_line(colour = "darkblue", size = 1, linetype = "solid"),
               axis.text.x  = element_text(face="bold",angle=45, vjust=0.5, size=5)) +
         labs(title="تحلیل زمانی دانش آموزان",color="دانش آموزان") +
-        scale_x_discrete(name ="تاریخ امتحان", limits=date) +
+        scale_x_discrete(name ="تاریخ امتحان", limits=colnames(Data())) +
         annotate('text',x = 9,y = 18,label= text())+
         #geom_text(aes(color=Student),position = position_dodge(width = 1),label = text(), parse = TRUE)+
         xlab("زمان") + ylab("نمره")
