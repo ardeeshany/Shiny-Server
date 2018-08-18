@@ -1,5 +1,5 @@
 
-C_CatUI <- function(id,date,names){
+M0_CatUI <- function(id,date,names){
   
   ns <- NS(id)
   
@@ -73,7 +73,7 @@ for(i in 1:20){
 }
 
 
-C_Cat <- function(input,output,session,Data,date,names){
+M0_Cat <- function(input,output,session,Data,date,names){
 
   
 Mean <- apply(Data,2,mean)  

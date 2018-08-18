@@ -5,12 +5,12 @@ M3_ClassUI <- function(id,date,names){
   tabsetPanel(
                         
      tabPanel(title="تحلیل را انتخاب کنید",icon = icon("mail-forward")),
-     C_BoxUI(ns("Box"),date,names),
-     C_HistUI(ns("Hist"),date,names),
-     C_ScatterUI(ns("Scatter"),date,names),                       
-     C_CatUI(ns("Category"),date,names),
-     C_ProgUI(ns("Progress"),date,names),
-     C_LoadUI(ns("Load")) 
+     M0_BoxUI(ns("Box")),
+     M0_HistUI(ns("Hist")),
+     M0_ScatterUI(ns("Scatter"),date,names),                       
+     M0_CatUI(ns("Category"),date,names),
+     M0_ProgUI(ns("Progress"),date,names),
+     M0_LoadUI(ns("Load")) 
                 
   )}
 
@@ -19,11 +19,11 @@ M3_ClassUI <- function(id,date,names){
 
 M3_Class <- function(input,output,session,Data,date,names){
 
-     callModule(C_Box,"Box",Data,date,names)
-     callModule(C_Hist,"Hist",Data)
-     callModule(C_Scatter,"Scatter",Data,date,names)
-     callModule(C_Cat,"Category",Data,date,names)
-     callModule(C_Prog,"Progress",Data,date,names)
-D <- callModule(C_Load,"Load")
+     callModule(M0_Box,"Box",vals)
+     callModule(M0_Hist,"Hist",vals)
+     callModule(M0_Scatter,"Scatter",Data,date,names)
+     callModule(M0_Cat,"Category",Data,date,names)
+     callModule(M0_Prog,"Progress",Data,date,names)
+vals <- callModule(M0_Load,"Load")
 
 }

@@ -1,5 +1,5 @@
 library(stringr)
-C_ProgUI <- function(id,date,names){
+M0_ProgUI <- function(id,date,names){
   
   ns <- NS(id)
   
@@ -60,7 +60,7 @@ C_ProgUI <- function(id,date,names){
 #
 ######################
 
-C_Prog <- function(input,output,session,Data,date,names){
+M0_Prog <- function(input,output,session,Data,date,names){
   
   
   ## Variable (like trigger) for selecting which React_DT want to show in output

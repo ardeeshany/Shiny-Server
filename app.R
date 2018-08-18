@@ -17,6 +17,7 @@ library(rdrop2)
 library(rio)
 
 
+Sys.setlocale(category = 'LC_ALL','en_US.UTF-8')
 ## modules ##
 source('ui_color.R')
 
@@ -30,12 +31,12 @@ source('ui_outside_functions.R')
 source('Module/M1_Class.R')
 source('Module/M2_Class.R')
 source('Module/M3_Class.R')
-  source('Module/Submodule/C_Hist.R')
-  source('Module/Submodule/C_Scatter.R')
-  source('Module/Submodule/C_Box.R')
-  source('Module/Submodule/C_Category.R')
-  source('Module/Submodule/C_Progress.R')
-  source('Module/Submodule/C_Load.R')
+  source('Module/Submodule/M0_Hist.R')
+  source('Module/Submodule/M0_Scatter.R')
+  source('Module/Submodule/M0_Box.R')
+  source('Module/Submodule/M0_Category.R')
+  source('Module/Submodule/M0_Progress.R')
+  source('Module/Submodule/M0_Load.R')
 source('Module/M_Student.R')
 source('Module/M_Summary.R')
 

@@ -1,4 +1,4 @@
-C_BoxUI <- function(id,date,names){
+M0_BoxUI <- function(id,date,names){
   
   ns <- NS(id)
   
@@ -8,11 +8,11 @@ C_BoxUI <- function(id,date,names){
              
              column(1,
                     div(style="display:inline-block; width: 150px; margin-top: 15px;",
-                        selectInput(inputId = ns("Bx_SeI1"),label = "زمان ابتدا",choices = date,selected = tail(date,4)[1]))
+                        uiOutput(ns("Bx_SeI1")))
              ),
              column(1, offset=1,
                     div(style="display:inline-block; width: 150px; margin-top: 15px;",
-                        selectInput(inputId = ns("Bx_SeI2"),label = "زمان انتها",choices = date,selected = tail(date,1)))
+                        uiOutput(ns("Bx_SeI2")))
              ),
              column(1, offset=1,
                     div(style="display:inline-block; margin-top: 40px;",
@@ -35,22 +35,42 @@ C_BoxUI <- function(id,date,names){
 #
 ######################
 
-C_Box <- function(input,output,session,Data,date,names){
+M0_Box <- function(input,output,session,Vals){
   
-  Mean <- apply(Data,2,mean)  
+  
+  ns <- session$ns  
+  
+  Data <- reactive({
+    M <- Vals[["now"]]
+    rownames(M) <- Vals[["names"]]
+    colnames(M) <- Vals[["dates"]]
+    return(M)
+  })
+  
+  
+  output$Bx_SeI1 <- renderUI({
+    selectInput(inputId = ns("Bx_SeI1"),label = "زمان ابتدا",choices = colnames(Data()),selected = tail(colnames(Data()),4)[1])
+  })
+  
+  
+  output$Bx_SeI2 <- renderUI({
+    selectInput(inputId = ns("Bx_SeI2"),label = "زمان انتها",choices =  colnames(Data()),selected = tail( colnames(Data()),1))
+  })
+  
+  #Mean <- reactive({ apply(Data(),2,mean) })
   
   melt_Data_Bx <- reactive({
-    min=which(date==input$Bx_SeI1)
-    max=which(date==input$Bx_SeI2)
+    min=which(colnames(Data())==input$Bx_SeI1)
+    max=which(colnames(Data())==input$Bx_SeI2)
     
     if(min < max){
-      d <- as.data.frame(Data[,min:max])
+      d <- as.data.frame(Data()[,min:max])
     }
     if(min==max){
-      d <- as.data.frame(Data[,max])
+      d <- as.data.frame(Data()[,max])
     }
     if(min > max){
-      d <- as.data.frame(Data)
+      d <- as.data.frame(Data())
     }
     d <- melt(as.matrix(d))
     colnames(d) <- c("Student","Day","value")
@@ -59,19 +79,19 @@ C_Box <- function(input,output,session,Data,date,names){
   })
   
   Reac_CP2M_Bx <- eventReactive(input$Bx_Ac, {
-    min=which(date==input$Bx_SeI1)
-    max=which(date==input$Bx_SeI2)
+    min=which(colnames(Data())==input$Bx_SeI1)
+    max=which(colnames(Data())==input$Bx_SeI2)
     if(min <=max){
       ggplot(melt_Data_Bx() , aes(x=Day,y=value,fill=Day)) + geom_boxplot(outlier.size=4) +
         stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red")+
         labs(title = "Grade", x = "Date")+
-        scale_x_discrete(labels=date[which(date==input$Bx_SeI1):which(date==input$Bx_SeI2)])+
+        scale_x_discrete(labels=colnames(Data())[which(colnames(Data())==input$Bx_SeI1):which(colnames(Data())==input$Bx_SeI2)])+
         theme(axis.text.x = element_text(size=15,colour="red",angle=90, hjust=1,vjust=.5)) }
     else{
       ggplot(melt_Data_Bx() , aes(x=Day,y=value,fill=Day)) + geom_boxplot(outlier.size=4) +
         stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red")+
         labs(title = "Grade", x = "Date")+
-        scale_x_discrete(labels=date)
+        scale_x_discrete(labels=colnames(Data()))
     }
   })
   output$Bx <- renderPlot(Reac_CP2M_Bx())

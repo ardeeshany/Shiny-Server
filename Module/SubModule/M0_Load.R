@@ -1,5 +1,5 @@
 
-C_LoadUI <- function(id){
+M0_LoadUI <- function(id){
   
   ns <- NS(id)
   
@@ -108,9 +108,8 @@ C_LoadUI <- function(id){
 #
 ######################
 
-list.files()
 
-C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/Data"){
+M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/Data"){
   
   
   
@@ -190,7 +189,7 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
     #D <- drop_read_csv(File()$path[ind])
     values[["now"]] <- D[,-1]
     values[["names"]] <-D[,1]
-    values[["dates"]] <- colnames(D)
+    values[["dates"]] <- colnames(D)[-1]
   })
   
   
@@ -298,6 +297,7 @@ C_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/
   })
   
 
+  return(values)
   #return(list(data=cbind(values[["names"]],values[["now"]]),date=values[["date"]]))
   
 }

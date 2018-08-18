@@ -1,5 +1,5 @@
-library(DT)
-C_HistUI <- function(id,date,names){
+
+M0_HistUI <- function(id){
   
   ns <- NS(id)
   
@@ -12,7 +12,7 @@ C_HistUI <- function(id,date,names){
              
              column(1,
                     div(style="display:inline-block; width: 150px; margin-top: 15px; text-align:center;",
-                        selectInput(inputId = ns("Hg_SeI"),label = "زمان",choices = date,selected =tail(date,n=1)))
+                        uiOutput(ns("Hg_SeI")))
              ),
              
              column(1,offset=1,
@@ -43,12 +43,30 @@ C_HistUI <- function(id,date,names){
 
 
 
-C_Hist <- function(input,output,session,Data){
+M0_Hist <- function(input,output,session,Vals){
   
-  melt_Data_Hg <- reactive({
-    d <- as.data.frame(Data[,input$Hg_SeI])
+   ns <- session$ns  
+  
+    Data <- reactive({
+      M <- Vals[["now"]]
+      rownames(M) <- Vals[["names"]]
+      colnames(M) <- Vals[["dates"]]
+      return(M)
+    })
+      
+  
+  
+    
+    output$Hg_SeI <- renderUI({
+      selectInput(inputId = ns("Hg_SeI"),label = "زمان",choices = colnames(Data()),selected =tail(colnames(Data()),n=1))
+    })
+    
+    
+    
+    melt_Data_Hg <- reactive({
+    d <- as.data.frame(Data()[,input$Hg_SeI])
     d <- melt(as.matrix(d))
-    d[,1] <- rownames(Data)
+    d[,1] <- rownames(Data())
     d[,2] <- input$Hg_SeI
     colnames(d) <- c("Student","Day","value")
     d

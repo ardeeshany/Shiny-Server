@@ -1,4 +1,4 @@
-C_ScatterUI <- function(id,date,names){
+M0_ScatterUI <- function(id,date,names){
   
   ns <- NS(id)
   
@@ -74,7 +74,7 @@ C_ScatterUI <- function(id,date,names){
 #
 ######################
 
-C_Scatter <- function(input,output,session,Data,date,names){
+M0_Scatter <- function(input,output,session,Data,date,names){
 
   
   print("SCATTER PLOOOOT")
