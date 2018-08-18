@@ -8,7 +8,7 @@ M3_ClassUI <- function(id,date,names){
      M0_BoxUI(ns("Box")),
      M0_HistUI(ns("Hist")),
      M0_ScatterUI(ns("Scatter"),date,names),                       
-     M0_CatUI(ns("Category"),date,names),
+     M0_CatUI(ns("Category")),
      M0_ProgUI(ns("Progress")),
      M0_LoadUI(ns("Load")) 
                 
@@ -22,7 +22,7 @@ M3_Class <- function(input,output,session,Data,date,names){
      callModule(M0_Box,"Box",vals)
      callModule(M0_Hist,"Hist",vals)
      callModule(M0_Scatter,"Scatter",Data,date,names)
-     callModule(M0_Cat,"Category",Data,date,names)
+     callModule(M0_Cat,"Category",vals)
      callModule(M0_Prog,"Progress",vals)
 vals <- callModule(M0_Load,"Load")
 

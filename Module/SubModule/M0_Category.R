@@ -1,5 +1,5 @@
 
-M0_CatUI <- function(id,date,names){
+M0_CatUI <- function(id){
   
   ns <- NS(id)
   
@@ -33,7 +33,7 @@ M0_CatUI <- function(id,date,names){
      #######################       
              column(1,
                     div(style="display:inline-block; margin-top: 33px; margin-left: 530px",
-                        numericInput(ns("DT_numI"),label = "میانگین وزنی",min = 1,max=length(date),value = 1,width = "85px")),
+                        uiOutput(ns("DT_numI"))),
                     div(style="margin-top: 9.5px;margin-left: 545px",
                         actionButton(inputId = ns("DT_AC3"),label = "طبقه بندی",width = "150px",icon=icon("arrow-right")))
              ),
@@ -67,25 +67,37 @@ plotlyOutput(ns("DT"))
 ######################
 
 Group_name_iso <- rep("NA",20)
-
 for(i in 1:20){
   Group_name_iso[i] = paste("گروه",i,sep="")
 }
 
+M0_Cat <- function(input,output,session,Vals){
 
-M0_Cat <- function(input,output,session,Data,date,names){
 
+  ns <- session$ns  
   
-Mean <- apply(Data,2,mean)  
+  Data <- reactive({
+    M <- Vals[["now"]]
+    rownames(M) <- Vals[["names"]]
+    colnames(M) <- Vals[["dates"]]
+    return(M)
+  })  
   
-Group_name <- reactive({
+    
+  output$DT_numI <- renderUI({
+    numericInput(ns("DT_numI"),label = "میانگین وزنی",min = 1,max=length(colnames(Data())),value = 1,width = "85px")
+  })
+  
+   Mean <- reactive({ apply(Data(),2,mean)  })
+  
+    Group_name <- reactive({
       Group_name_iso[1:input$DT_bin]  
-})
+      })
   
 
       
     melt_Data_DT <- reactive({
-    d <- as.data.frame(Data)
+    d <- as.data.frame(Data())
     d <- melt(as.matrix(d))
     
     if(input$DT_bin==1)
@@ -258,13 +270,13 @@ React_DT2 <-eventReactive(input$DT_AC2, {
 React_DT3 <-eventReactive(input$DT_AC3, {
   
 if(input$DT_numI==1)
-gr <- rep(1,dim(Data)[2])
+gr <- rep(1,dim(Data())[2])
 else
-gr <- as.numeric(cut(1:dim(Data)[2],breaks = input$DT_numI,labels = 1:input$DT_numI))
+gr <- as.numeric(cut(1:dim(Data())[2],breaks = input$DT_numI,labels = 1:input$DT_numI))
 
 
-d <- as.data.frame(apply(Data,1,function(x){weighted.mean(x,gr)}))
-d$names <- rownames(Data)
+d <- as.data.frame(apply(Data(),1,function(x){weighted.mean(x,gr)}))
+d$names <- rownames(Data())
 colnames(d) <- c("mean.w","names")
 d <- d[order(d$mean.w,decreasing = T),]
 
@@ -273,7 +285,7 @@ cc1 <- colorRampPalette(c("sienna3","khaki3","turquoise3"))(input$DT_bin2)
 if(input$DT_bin2==1)
 d$clr <-cc1
 else
-d$clr <- as.vector(cut(1:dim(Data)[1],breaks = input$DT_bin2,labels = cc1))
+d$clr <- as.vector(cut(1:dim(Data())[1],breaks = input$DT_bin2,labels = cc1))
 
 p <- ggplot(d,aes(x = reorder(names,mean.w),y = mean.w))+
   geom_bar(stat="identity",aes(fill = clr),color="black")+
