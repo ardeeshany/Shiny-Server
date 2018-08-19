@@ -26,11 +26,12 @@ M3_Class <- function(input,output,session,outputDir){
         callModule(M0_Prog,"Progress",vals)
 vals <- callModule(M0_Load,"Load",outputDir)
 
-V <- reactive({
-  M <- as.data.frame(tidyr::gather(cbind(name=vals[["names"]],vals[["now"]]),key,value,-name))
-  return(M)
-})
+# V <- reactive({
+#   vals
+#   # M <- tidyr::gather(cbind(name=vals[["names"]],vals[["now"]]),key,value,-name)
+#   # return(M)
+# })
 
-return(V)
+return(vals)
 
 }

@@ -15,6 +15,7 @@ library(ggplot2)
 library(rhandsontable)
 library(rdrop2)
 library(rio)
+library(tidyr)
 
 
 Sys.setlocale(category = 'LC_ALL','en_US.UTF-8')
