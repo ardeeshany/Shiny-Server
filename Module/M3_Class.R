@@ -19,11 +19,18 @@ M3_ClassUI <- function(id){
 
 M3_Class <- function(input,output,session,outputDir){
 
-     callModule(M0_Box,"Box",vals)
-     callModule(M0_Hist,"Hist",vals)
-     callModule(M0_Scatter,"Scatter",vals)
-     callModule(M0_Cat,"Category",vals)
-     callModule(M0_Prog,"Progress",vals)
+        callModule(M0_Box,"Box",vals)
+        callModule(M0_Hist,"Hist",vals)
+        callModule(M0_Scatter,"Scatter",vals)
+        callModule(M0_Cat,"Category",vals)
+        callModule(M0_Prog,"Progress",vals)
 vals <- callModule(M0_Load,"Load",outputDir)
+
+V <- reactive({
+  M <- as.data.frame(tidyr::gather(cbind(name=vals[["names"]],vals[["now"]]),key,value,-name))
+  return(M)
+})
+
+return(V)
 
 }

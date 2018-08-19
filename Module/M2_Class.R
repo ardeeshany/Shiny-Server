@@ -1,7 +1,7 @@
+
 M2_ClassUI <- function(id){
 
   ns <- NS(id)
-  
   
   tabsetPanel(selected = NULL,
         tabPanel(title="درس را انتخاب کنید",icon = icon("mail-forward")),
@@ -12,10 +12,11 @@ M2_ClassUI <- function(id){
                                     )}
 
 
-M2_Class <- function(input,output,session,outputlev){
+M2_Class <- function(input,output,session,outputlev,count=3){
 
-  callModule(M3_Class,"riazi",outputDir = sprintf("%s/riazi",outputlev))
-  callModule(M3_Class,"fizik",outputDir = sprintf("%s/fizik",outputlev))
-  callModule(M3_Class,"shimi",outputDir = sprintf("%s/shimi",outputlev))
+      vals <- callModule(M3_Class,"riazi",outputDir = sprintf("%s/riazi",outputlev))
+              callModule(M3_Class,"fizik",outputDir = sprintf("%s/fizik",outputlev))
+              callModule(M3_Class,"shimi",outputDir = sprintf("%s/shimi",outputlev))
 
+        return(vals)      
 }

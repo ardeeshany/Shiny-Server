@@ -25,9 +25,10 @@ tagList(
                               tabPanel(title="تحلیل را انتخاب کنید",icon = icon("mail-forward")
                               ),
                               tabPanel(title="خلاصه",
+                                       
                                        box(
                                          title = "Box title1", width = 6, status = "primary",
-                                         "Box content"
+                                         actionButton(inputId = ns("act"),label = "آپدیت")
                                        )      
                               )
                             )
@@ -36,6 +37,24 @@ tagList(
 
 }
 
-M_Student <- function(input,output,session){
+M_Student <- function(input,output,session,Vals,add="RAAVI/RAAVI/Data"){
+  
+  #M <- tidyr::gather(cbind(name=rownames(DP2M),DP2M),key,value,-name)
+  
+  saveData <- function(data,fileName){
+    # Create a unique file name
+    filePath <- file.path(tempdir(), sprintf("%s.xlsx",fileName)) # Write the data to a temporary file locally
+    #colnames(data)[1] <- "نام"
+    write.xlsx(x = data, file = filePath, row.names = FALSE)
+    drop_upload(filePath, path = add, autorename = TRUE,mode = "add")
+  }
+  
+observeEvent(input$act,{
+  saveData(as.data.frame(Vals()),"Tidy")
+})
   
 }
+
+
+
+

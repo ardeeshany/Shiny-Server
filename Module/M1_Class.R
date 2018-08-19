@@ -1,6 +1,6 @@
 M1_ClassUI <- function(id){
 
-  ns <- NS(id)
+          ns <- NS(id)
 
           box(width = "130%",collapsible = TRUE,status = "primary",
               tabsetPanel(selected = NULL,
@@ -14,8 +14,9 @@ M1_ClassUI <- function(id){
 
 M1_Class <- function(input,output,session,outputcls){
 
-callModule(M2_Class,"c12_1",outputlev = sprintf("%s/level1",outputcls))
-callModule(M2_Class,"c12_2",outputlev = sprintf("%s/level2",outputcls))
-callModule(M2_Class,"c12_3",outputlev = sprintf("%s/level3",outputcls))  
+            callModule(M2_Class,"c12_1",outputlev = sprintf("%s/level1",outputcls))
+    vals <- callModule(M2_Class,"c12_2",outputlev = sprintf("%s/level2",outputcls))
+            callModule(M2_Class,"c12_3",outputlev = sprintf("%s/level3",outputcls))  
 
+    return(vals)
 }

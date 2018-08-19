@@ -5,7 +5,9 @@ SidebarUI <- function(id){
 
   dashboardSidebar(
     width = 230,
-    helpText(h1(strong("RAAVI"))),
+    
+    helpText(div(style="text-align:center; color: white ;font-size: 350%; font-weight: bold;",
+                 "راوی")),
     
     sidebarMenu(id = ns("menu1"),          
               
@@ -16,7 +18,8 @@ SidebarUI <- function(id){
       menuItem("خلاصه", tabName= "Summary", icon = icon("list-ul")),
       menuItem("کلاس",tabname= "Class", icon = icon("sitemap"),tabName = "Ref",
                menuSubItem("دوازدهم", tabName = "C12"),
-               menuSubItem("یازدهم", tabName = "C11")),
+               menuSubItem("یازدهم", tabName = "C11"),
+               menuSubItem("دهم", tabName = "C10")),
       menuItem("دانش آموز", tabName = "Student", icon = icon("users","lg")),
       menuItem("دبیر", tabName = "Teacher", icon = icon("user-secret","fa-lg")),
       menuItem("Source code", icon = icon("file-code-o"),       # link to external content
