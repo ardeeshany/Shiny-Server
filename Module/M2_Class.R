@@ -14,9 +14,15 @@ M2_ClassUI <- function(id){
 
 M2_Class <- function(input,output,session,outputlev,count=3){
 
-      vals <- callModule(M3_Class,"riazi",outputDir = sprintf("%s/riazi",outputlev))
-              callModule(M3_Class,"fizik",outputDir = sprintf("%s/fizik",outputlev))
-              callModule(M3_Class,"shimi",outputDir = sprintf("%s/shimi",outputlev))
-
-        return(vals)      
+  
+      V1 <- callModule(M3_Class,"riazi",outputDir = sprintf("%s/riazi",outputlev))
+      V2 <- callModule(M3_Class,"fizik",outputDir = sprintf("%s/fizik",outputlev))
+       callModule(M3_Class,"shimi",outputDir = sprintf("%s/shimi",outputlev))
+      
+      V <- reactive({
+        M <- rbind(V1(),V2())
+        return(M)
+          })
+      
+      return(V)      
 }

@@ -15,8 +15,6 @@ M3_ClassUI <- function(id){
   )}
 
 
-
-
 M3_Class <- function(input,output,session,outputDir){
 
         callModule(M0_Box,"Box",vals)
@@ -26,12 +24,11 @@ M3_Class <- function(input,output,session,outputDir){
         callModule(M0_Prog,"Progress",vals)
 vals <- callModule(M0_Load,"Load",outputDir)
 
-# V <- reactive({
-#   vals
-#   # M <- tidyr::gather(cbind(name=vals[["names"]],vals[["now"]]),key,value,-name)
-#   # return(M)
-# })
+V <- reactive({
+  M <- tidyr::gather(cbind(name=vals[["names"]],vals[["now"]]),key,value,-name)
+  return(M)
+})
 
-return(vals)
+return(V)
 
 }
