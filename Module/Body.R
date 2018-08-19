@@ -47,9 +47,9 @@ Body <- function(input,output,session, outputadrs="RAAVI/RAAVI/DATA/school1"){
   
   
           callModule(M_Summary,"summary")
-  vals <- callModule(M1_Class,"c12",outputcls = sprintf("%s/12",outputadrs)) 
-          callModule(M1_Class,"c11",outputcls = sprintf("%s/11",outputadrs))
-          callModule(M1_Class,"c10",outputcls = sprintf("%s/10",outputadrs))
+  vals <- callModule(M1_Class,"c12",outputcls = sprintf("%s/12",outputadrs),class="12") 
+          callModule(M1_Class,"c11",outputcls = sprintf("%s/11",outputadrs),class="11")
+          callModule(M1_Class,"c10",outputcls = sprintf("%s/10",outputadrs),class="10")
           callModule(M_Student,"student",Vals=vals)    
   
 #### Login ####  

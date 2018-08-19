@@ -19,6 +19,7 @@ library(tidyr)
 
 
 Sys.setlocale(category = 'LC_ALL','en_US.UTF-8')
+
 ## modules ##
 source('ui_color.R')
 
@@ -39,6 +40,7 @@ source('Module/M3_Class.R')
   source('Module/MainModules/M0_Progress.R')
   source('Module/MainModules/M0_Load.R')
 source('Module/M_Student.R')
+  source('Module/MainModules/M0_St_Scatter.R')
 source('Module/M_Summary.R')
 
 

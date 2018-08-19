@@ -15,7 +15,7 @@ M3_ClassUI <- function(id){
   )}
 
 
-M3_Class <- function(input,output,session,outputDir){
+M3_Class <- function(input,output,session,outputDir,class,level,course){
 
         callModule(M0_Box,"Box",vals)
         callModule(M0_Hist,"Hist",vals)
@@ -25,7 +25,7 @@ M3_Class <- function(input,output,session,outputDir){
 vals <- callModule(M0_Load,"Load",outputDir)
 
 V <- reactive({
-  M <- tidyr::gather(cbind(name=vals[["names"]],vals[["now"]]),key,value,-name)
+  M <- tidyr::gather(cbind(name=vals[["names"]],vals[["now"]],class=class,level=level,course=course),date,grade,-name,-class,-level,-course)
   return(M)
 })
 

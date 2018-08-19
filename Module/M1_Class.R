@@ -12,11 +12,11 @@ M1_ClassUI <- function(id){
 
                                   ))}
 
-M1_Class <- function(input,output,session,outputcls){
+M1_Class <- function(input,output,session,outputcls,class){
 
-            callModule(M2_Class,"c12_1",outputlev = sprintf("%s/level1",outputcls))
-    vals <- callModule(M2_Class,"c12_2",outputlev = sprintf("%s/level2",outputcls))
-            callModule(M2_Class,"c12_3",outputlev = sprintf("%s/level3",outputcls))  
+            callModule(M2_Class,"c12_1",outputlev = sprintf("%s/level1",outputcls),class,level="1")
+    vals <- callModule(M2_Class,"c12_2",outputlev = sprintf("%s/level2",outputcls),class,level="2")
+            callModule(M2_Class,"c12_3",outputlev = sprintf("%s/level3",outputcls),class,level="3")  
 
     return(vals)
 }

@@ -1,7 +1,17 @@
-M0_ScatterUI <- function(id){
+M0_St_ScatterUI <- function(id){
+  
+  
+  
 
+  
    ns <- NS(id)
 
+   
+   
+   
+   
+   
+   
   tabPanel(title = "دانش آموزان", icon=icon("user-circle"),
 
 ### For Error Message
@@ -74,7 +84,7 @@ M0_ScatterUI <- function(id){
 #
 ######################
 
-M0_Scatter <- function(input,output,session,Vals){
+M0_St_Scatter <- function(input,output,session,Vals){
 
   ns <- session$ns
 
@@ -85,6 +95,7 @@ M0_Scatter <- function(input,output,session,Vals){
     return(M)
   })
 
+  
 
   output$St_ChG <- renderUI({
     checkboxGroupInput(inputId = ns("St_ChG"), label = "", choices = c(rownames(Data())))
