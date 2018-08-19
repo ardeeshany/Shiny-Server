@@ -34,8 +34,8 @@ tabItems(
 #### Login ####  
 
 tabItem(tabName = "Summary", M_SummaryUI(ns("summary"))),  
-tabItem(tabName = "CP",M1_ClassUI(ns("cp"),date_P2,names_P2)), 
-tabItem(tabName = "C3",M1_ClassUI(ns("c3"),date_P2,names_P2)), 
+tabItem(tabName = "CP",M1_ClassUI(ns("cp"))), 
+tabItem(tabName = "C3",M1_ClassUI(ns("c3"))), 
 tabItem(tabName="Student", M_StudentUI(ns("student"),names_all))
       
        )
@@ -54,8 +54,8 @@ Body <- function(input,output,session){
 #### Login ####    
   
 callModule(M_Summary,"summary")
-callModule(M1_Class,"cp",DP2M,date_P2,names_P2) 
-callModule(M1_Class,"c3",DP2M,date_P2,names_P2) 
+callModule(M1_Class,"cp") 
+callModule(M1_Class,"c3") 
 callModule(M_Student,"student")  
 
 #}  

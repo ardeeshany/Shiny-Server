@@ -1,4 +1,4 @@
-M3_ClassUI <- function(id,date,names){
+M3_ClassUI <- function(id){
 
   ns <- NS(id)
 
@@ -17,13 +17,13 @@ M3_ClassUI <- function(id,date,names){
 
 
 
-M3_Class <- function(input,output,session,Data,date,names){
+M3_Class <- function(input,output,session,outputDir){
 
      callModule(M0_Box,"Box",vals)
      callModule(M0_Hist,"Hist",vals)
      callModule(M0_Scatter,"Scatter",vals)
      callModule(M0_Cat,"Category",vals)
      callModule(M0_Prog,"Progress",vals)
-vals <- callModule(M0_Load,"Load")
+vals <- callModule(M0_Load,"Load",outputDir)
 
 }

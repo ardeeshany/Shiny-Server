@@ -89,7 +89,7 @@ M0_LoadUI <- function(id){
 }
 
 
-M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI/Data"){
+M0_Load <- function(input,output,session,outputDir){
   
   
   
@@ -247,12 +247,9 @@ M0_Load <- function(input,output,session,outdir=getwd(),outputDir = "RAAVI/RAAVI
     saveData(finalDF,sprintf("%s", outfilename))
     
     output$message <- renderUI({
-      if(input$save==0){
-        helpText(sprintf("This table will be saved in folder \"%s\" once you press the Save button.", outdir))
-      }else{
         div(style="text-align:right;",
         helpText(sprintf("فایل \"%s\" با موفقیت ذخیره شد", outfilename)))
-      }
+      
     })
     })
   
