@@ -12,10 +12,10 @@ M2_ClassUI <- function(id){
                                     )}
 
 
-M2_Class <- function(input,output,session){
+M2_Class <- function(input,output,session,outputlev){
 
-  callModule(M3_Class,"riazi",outputDir = "RAAVI/RAAVI/Data/School1/Pish/Level2/riazi")
-  callModule(M3_Class,"fizik",outputDir = "RAAVI/RAAVI/Data/School1/Pish/Level2/riazi")
-  callModule(M3_Class,"shimi",outputDir = "RAAVI/RAAVI/Data/School1/Pish/Level2/riazi")
+  callModule(M3_Class,"riazi",outputDir = sprintf("%s/riazi",outputlev))
+  callModule(M3_Class,"fizik",outputDir = sprintf("%s/fizik",outputlev))
+  callModule(M3_Class,"shimi",outputDir = sprintf("%s/shimi",outputlev))
 
 }
