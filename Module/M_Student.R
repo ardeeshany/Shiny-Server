@@ -27,7 +27,7 @@ M_StudentUI <- function(id,names){
 
 M_Student <- function(input,output,session,Vals,add="RAAVI/RAAVI/Data"){
   
-  callModule(M0_St_Scatter,"Scatter")
+  callModule(M0_St_Scatter,"Scatter",Vals)
   
  
 #M <- tidyr::gather(cbind(name=rownames(DP2M),DP2M),key,value,-name)
