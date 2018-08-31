@@ -19,7 +19,7 @@ M0_BoxUI <- function(id,date,names){
                         actionButton(inputId = ns("Bx_Ac"),label = "آنالیز"))
              )
            ),
-           plotOutput(ns("Bx")),icon=icon("square")
+           plotlyOutput(ns("Bx")),icon=icon("square")
   )
 }
 
@@ -82,17 +82,21 @@ M0_Box <- function(input,output,session,Vals){
     min=which(colnames(Data())==input$Bx_SeI1)
     max=which(colnames(Data())==input$Bx_SeI2)
     if(min <=max){
-      ggplot(melt_Data_Bx() , aes(x=Day,y=value,fill=Day)) + geom_boxplot(outlier.size=4) +
-        stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red")+
+      p <- ggplot(melt_Data_Bx() , aes(x=Day,y=value,fill=Day)) + geom_boxplot(outlier.size=6) +
+        stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="red", fill="red")+
         labs(title = "Grade", x = "Date")+
         scale_x_discrete(labels=colnames(Data())[which(colnames(Data())==input$Bx_SeI1):which(colnames(Data())==input$Bx_SeI2)])+
-        theme(axis.text.x = element_text(size=15,colour="red",angle=90, hjust=1,vjust=.5)) }
+        theme(axis.text.x = element_text(size=10,colour="black",angle=90, hjust=1,vjust=.5)) }
     else{
-      ggplot(melt_Data_Bx() , aes(x=Day,y=value,fill=Day)) + geom_boxplot(outlier.size=4) +
-        stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red")+
+      p <- ggplot(melt_Data_Bx() , aes(x=Day,y=value,fill=Day)) + geom_boxplot(outlier.size=6) +
+        stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="red", fill="red")+
         labs(title = "Grade", x = "Date")+
-        scale_x_discrete(labels=colnames(Data()))
+        scale_x_discrete(labels=colnames(Data()))+
+        theme(axis.text.x = element_text(size=10,colour="black",angle=90, hjust=1,vjust=.5))
     }
+    gg <- ggplotly(p)
+    gg
   })
-  output$Bx <- renderPlot(Reac_CP2M_Bx())
+  
+  output$Bx <- renderPlotly(Reac_CP2M_Bx())
 }

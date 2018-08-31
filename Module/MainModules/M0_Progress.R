@@ -206,7 +206,7 @@ M0_Prog <- function(input,output,session,Vals){
       
       for(i in 1:length(Data_T)){  
         Mean <- apply(Data_T[[i]],2,mean)
-        Mean<- melt(as.matrix(Mean))[,-2]
+        Mean <- melt(as.matrix(Mean))[,-2]
         colnames(Mean) <- c("Day","value")
         Mean$Day <- 1:length(colnames(Data()))
         fit_tot[[i]] <- lm(value~Day, data=Mean)
@@ -243,7 +243,7 @@ M0_Prog <- function(input,output,session,Vals){
       }
        
       
-    s  <-ggplot(slope,aes(x=reorder(names,1:input$Pr_bin2), y = sl))+
+   s <- ggplot(slope,aes(x=reorder(names,1:input$Pr_bin2), y = sl))+
         geom_bar(stat="identity",aes(fill=factor(clr,labels = lab)),color="black")+
         scale_fill_manual(values=col)+    # filling geom_bar with colors
         labs(fill="")+  # legend title
