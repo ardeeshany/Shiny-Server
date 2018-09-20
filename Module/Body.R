@@ -33,24 +33,24 @@ tabItems(
 # ),
 #### Login ####  
 
-tabItem(tabName = "Summary", M_SummaryUI(ns("summary"))),  
-tabItem(tabName = "C12",M1_ClassUI(ns("c12"))), 
-tabItem(tabName = "C11",M1_ClassUI(ns("c11"))), 
-tabItem(tabName = "C10",M1_ClassUI(ns("c10"))), 
-tabItem(tabName="Student", M_StudentUI(ns("student"),names_all))
+tabItem(tabName = "Summary", M_SummaryUI(ns("summary"))),
+# tabItem(tabName = "C12",M1_ClassUI(ns("c12"))),
+# tabItem(tabName = "C11",M1_ClassUI(ns("c11"))),
+tabItem(tabName = "C10",M1_ClassUI(ns("c10")))
+# tabItem(tabName="Student", M_StudentUI(ns("student"),names_all))
       
        )
     )
 }
 
-Body <- function(input,output,session, outputadrs="RAAVI/RAAVI/DATA/school1"){
+Body <- function(input,output,session, outputadrs="/raavi/raavi/data/school1"){
   
   
           callModule(M_Summary,"summary")
-  vals <- callModule(M1_Class,"c12",outputcls = sprintf("%s/12",outputadrs),class="12") 
-          callModule(M1_Class,"c11",outputcls = sprintf("%s/11",outputadrs),class="11")
+  # vals <- callModule(M1_Class,"c12",outputcls = sprintf("%s/12",outputadrs),class="12")
+  #         callModule(M1_Class,"c11",outputcls = sprintf("%s/11",outputadrs),class="11")
           callModule(M1_Class,"c10",outputcls = sprintf("%s/10",outputadrs),class="10")
-          callModule(M_Student,"student",Vals=vals)    
+  #         callModule(M_Student,"student",Vals=vals)
   
 #### Login ####  
   #USER1 <- callModule(Pass,"mod_pass")

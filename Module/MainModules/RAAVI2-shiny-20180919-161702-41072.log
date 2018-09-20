@@ -1,0 +1,60 @@
+
+Attaching package: ‘shinydashboard’
+
+The following object is masked from ‘package:graphics’:
+
+    box
+
+Loading required package: ggplot2
+
+Attaching package: ‘plotly’
+
+The following object is masked from ‘package:ggplot2’:
+
+    last_plot
+
+The following object is masked from ‘package:stats’:
+
+    filter
+
+The following object is masked from ‘package:graphics’:
+
+    layout
+
+
+Attaching package: ‘rio’
+
+The following object is masked from ‘package:plotly’:
+
+    export
+
+
+Attaching package: ‘tidyr’
+
+The following object is masked from ‘package:reshape2’:
+
+    smiths
+
+
+Attaching package: ‘DT’
+
+The following objects are masked from ‘package:shiny’:
+
+    dataTableOutput, renderDataTable
+
+
+Listening on http://127.0.0.1:41072
+Warning: Error in if: argument is of length zero
+  127: eventReactiveHandler
+   83: Reac_CP2M_Bx
+   79: func
+   78: origRenderFunc
+   77: output$mod_body-c10-c12_2-riazi-Box-Bx
+    1: runApp
+File /tmp/RtmpN3BsR3/2018-09-19.xlsx uploaded as /raavi/raavi/data/school1/10/level2/Riazi/2018-09-19 (4).xlsx successfully at 2018-09-19T16:18:04Z
+Warning: Error in +: non-numeric argument to binary operator
+  72: observeEventHandler
+   1: runApp
+
+
+Execution halted

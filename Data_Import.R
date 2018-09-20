@@ -14,7 +14,7 @@
 
 
 ## Read excel file including different sheets and return a list including the separate sheets information. 
-library(readxl)    
+   
 read_excel_allsheets <- function(filename) {
   sheets <- readxl::excel_sheets(filename)    #return names of the sheets...ریاضی، فیزیک، شیمی
   x <-    lapply(sheets, function(X) readxl::read_excel(filename, sheet = X)) #read each sheet and save them as a sepratae files...list of 3 classes

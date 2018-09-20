@@ -47,10 +47,22 @@ M0_Box <- function(input,output,session,Vals){
     return(M)
   })
   
+  token <- readRDS("droptoken.rds")
+  
+  File <- reactive({
+    #filesInfo <- drop_dir("RAAVI/RAAVI/DATA/school1/10/Level2/riazi")
+    filesInfo <- drop_dir("RAAVI/RAAVI/DATA/school1/10/Level2/riazi",dtoken = token)
+    filenames <- unlist(strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts (no after dot)
+    return(list(name=filenames))
+  }) 
   
   output$Bx_SeI1 <- renderUI({
-    selectInput(inputId = ns("Bx_SeI1"),label = "زمان ابتدا",choices = colnames(Data()),selected = tail(colnames(Data()),4)[1])
+    selectInput(inputId = ns("Bx_SeI1"),label = "زمان ابتدا",choices = File()$name)
   })
+  
+  # output$Bx_SeI1 <- renderUI({
+  #   selectInput(inputId = ns("Bx_SeI1"),label = "زمان ابتدا",choices = colnames(Data()),selected = tail(colnames(Data()),4)[1])
+  # })
   
   
   output$Bx_SeI2 <- renderUI({

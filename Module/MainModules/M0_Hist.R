@@ -1,4 +1,3 @@
-
 M0_HistUI <- function(id){
   
   ns <- NS(id)

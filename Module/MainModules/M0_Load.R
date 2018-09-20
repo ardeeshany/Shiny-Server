@@ -13,9 +13,10 @@ M0_LoadUI <- function(id){
           br(),
           box(width="200%",title = "ویرایش اطلاعات",status="primary",
 
-               wellPanel(
+                wellPanel(
                 radioButtons(inputId = ns("up_rmv"),label = "",choices = c("آپلود","پاک"),selected = "آپلود",inline = TRUE),
                 uiOutput(outputId = ns("f_upload"))),
+                uiOutput(ns("message2"), inline=TRUE),
                 br(),
                
                wellPanel(
@@ -91,50 +92,65 @@ M0_LoadUI <- function(id){
 
 M0_Load <- function(input,output,session,outputDir){
   
+    token <- readRDS("droptoken.rds") 
   
-  
-  
-  saveData <- function(data,fileName){
+    saveData <- function(data,fileName){
     # Create a unique file name
     filePath <- file.path(tempdir(), sprintf("%s.xlsx",fileName)) # Write the data to a temporary file locally
     colnames(data)[1] <- "نام"
     write.xlsx(x = data, file = filePath, row.names = FALSE)
-    drop_upload(filePath, path = outputDir, autorename = TRUE,mode = "add")
+    drop_upload(filePath, path = outputDir, autorename = TRUE,mode = "add",dtoken = token)
   }
 
    observeEvent(input$f_new,{
-     D_new <-read.xlsx(input$f_new$datapath)
+     D_new <- read.xlsx(input$f_new$datapath)
      saveData(D_new,input$f_name)
      })
-  
-   observeEvent(input$remove_f,{
-   ind <- which(File()$name==input$f_remove)
-   drop_delete(path = File()$path[ind])
-   })
-   
   
   File <- reactive({
     input$save
     input$f_new
     input$remove_f
     input$f_new
-    filesInfo <- drop_dir(outputDir)
-    filenames <- unlist(strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts (no after dot)
+    filesInfo <- drop_dir(outputDir,dtoken = token)
+    filenames <- unlist(base::strsplit(filesInfo$name,"[.]"))[c(TRUE,FALSE)] # select odd elemnts (no after dot)
     filePaths <- filesInfo$path_display
     return(list(name=filenames,path=filePaths))
   }) 
+  
+  observeEvent(input$remove_f,{
+    #ind <- which(File()$name==input$f_remove)
+    #path <- file.path(outputDir, sprintf("%s.xlsx",input$f_remove))
+    path2 <- (drop_dir("/RAAVI/RAAVI/Data",dtoken=token)$path_display)
+    # output$message2 <- renderUI({
+    #    helpText(sprintf("فایل \"%s\" با موفقیت ذخیره شد", drop_exists(path2,dtoken = token)))
+    # })
+    A <- rep(TRUE,length(path2))
+    
+    for(i in 1:length(path2)){
+      A[i] <- drop_exists(path2[1],dtoken=token)
+    }
+    
+    
+    output$message2 <- renderUI({
+      a <- toString(path2)
+      b <-toString(A)
+      c <- toString(c(a,b))
+      helpText(c)
+    })
+    drop_delete(path = path2[4],dtoken = token)
+  })
    
   output$f_set <- renderUI({
      selectInput(inputId = session$ns("f_set"),label = "دیتا برای آنالیز",choices = File()$name)
      })
 
-   
    output$f_upload <- renderUI({
      if(input$up_rmv=="آپلود"){
        Date <- as.OtherDate(Sys.Date(),"persian")[1:3]
        A <- textInput(inputId = session$ns("f_name"),label = "نام دیتا",
                     value = sprintf("%s-%s-%s",Date[3],Date[2],Date[1]))
-       B <- fileInput(inputId = session$ns("f_new"),label = "آپلود کردن فایل جدید")
+       B <- fileInput(inputId = session$ns("f_new"),label = "319آپلود کردن فایل جدید")
        return(list(A,B))
      }else{
        A <- selectInput(inputId = session$ns("f_remove"),label = "نام دیتا",choices = File()$name) 
@@ -151,7 +167,7 @@ M0_Load <- function(input,output,session,outputDir){
   observeEvent(input$f_set,{
     ind <- which(File()$name==input$f_set)
     Temp <- file.path(tempdir(),"Test.xlsx")
-    drop_download(path = File()$path[ind],local_path = Temp,overwrite = TRUE)
+    drop_download(path = File()$path[ind],local_path = Temp,overwrite = TRUE,dtoken = token)
     D <- read.xlsx(xlsxFile = Temp)
     values[["now"]] <- D[,-1]
     values[["names"]] <-D[,1]
